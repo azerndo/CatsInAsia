@@ -1,5 +1,5 @@
 # Cats in Asia Database Management System
-Thank you for visiting the Cats in Asia Database Management System (CADMS)! This project is dedicated to tracking, managing, and celebrating the diverse world of cats across Asia. Whether you're a researcher, cat enthusiast, or developer, this database offers a platform for cataloging data, monitoring health records, and fostering a deeper understanding of our feline friends.
+Thank you for visiting the Cats in Asia Database Management System (CADMS)! This project is dedicated to tracking, managing, and celebrating the diverse world of cats across Asia. Whether you're a researcher, cat enthusiast, or developer, this database offers a platform for cataloging data, monitoring health records, and fostering a little bit of understanding of our feline friends.
 
 ## Running the project
 
