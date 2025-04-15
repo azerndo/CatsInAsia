@@ -47,9 +47,9 @@ public partial class Form1 : Form
     private DataGridView dataGridView;
     private TextBox searchBox;
     private Label statusLabel;
-    private Color primaryColor = Color.FromArgb(255, 140, 0); // Dark Orange
-    private Color secondaryColor = Color.FromArgb(255, 165, 0); // Orange
-    private Color accentColor = Color.FromArgb(255, 69, 0); // Red-Orange
+    private Color primaryColor = Color.FromArgb(255, 140, 0); 
+    private Color secondaryColor = Color.FromArgb(255, 165, 0); 
+    private Color accentColor = Color.FromArgb(255, 69, 0); 
     private Button toggleSidebarButton;
     private bool isSidebarVisible = true;
     private List<Button> menuButtons = new List<Button>();
@@ -63,13 +63,12 @@ public partial class Form1 : Form
 
     private void InitializeCustomComponents()
     {
-        // Form settings
+
         this.Text = "Cats in Asia Management System";
         this.Size = new Size(1200, 800);
         this.StartPosition = FormStartPosition.CenterScreen;
         this.BackColor = Color.White;
 
-        // Create side panel
         sidePanel = new Panel
         {
             BackColor = primaryColor,
@@ -77,7 +76,6 @@ public partial class Form1 : Form
             Width = 250
         };
 
-        // Add logo/title panel
         Panel logoPanel = new Panel
         {
             Dock = DockStyle.Top,
@@ -86,7 +84,6 @@ public partial class Form1 : Form
             Padding = new Padding(10)
         };
 
-        // Create toggle button in the logo panel
         toggleSidebarButton = new Button
         {
             Text = "◀",
@@ -108,20 +105,19 @@ public partial class Form1 : Form
             Font = new Font("Segoe UI", 20, FontStyle.Bold),
             TextAlign = ContentAlignment.MiddleCenter,
             Dock = DockStyle.Fill,
-            Padding = new Padding(40, 0, 0, 0) // Add left padding to avoid overlap with toggle button
+            Padding = new Padding(40, 0, 0, 0) 
         };
 
         logoPanel.Controls.Add(toggleSidebarButton);
         logoPanel.Controls.Add(titleLabel);
         sidePanel.Controls.Add(logoPanel);
 
-        // Create buttons for side panel with emojis as icons
         CreateMenuButton("🐱 Cats", "View and manage all cats", 0);
         CreateMenuButton("👥 Owners", "View pet owners", 1);
         CreateMenuButton("📋 Medical Records", "Access medical records", 2);
         CreateMenuButton("❤️ Adoption Requests", "Manage adoption requests", 3);
+        CreateMenuButton("🐱 Add Cat", "Add new cat", 4);
 
-        // Create content panel
         contentPanel = new Panel
         {
             Dock = DockStyle.Fill,
@@ -129,29 +125,27 @@ public partial class Form1 : Form
             Padding = new Padding(20)
         };
 
-        // Create search panel
         Panel searchPanel = new Panel
         {
             Height = 60,
             Dock = DockStyle.Top,
             BackColor = Color.White,
             Padding = new Padding(20),
-            Margin = new Padding(0, 0, 20, 0) // Add right margin
+            Margin = new Padding(0, 0, 20, 0)
         };
 
-        // Create search box with icon
+
         searchBox = new RoundedTextBox
         {
             PlaceholderText = "🔍 Search...",
             Width = 300,
             Height = 50,
             Font = new Font("Segoe UI", 12),
-            Location = new Point(searchPanel.Width - 400, 12), // Adjusted position for better alignment
+            Location = new Point(searchPanel.Width - 400, 12), 
             BackColor = Color.FromArgb(240, 240, 240),
-            Anchor = AnchorStyles.Top | AnchorStyles.Right // Anchor to right
+            Anchor = AnchorStyles.Top | AnchorStyles.Right 
         };
 
-        // Create search button
         Button searchButton = new Button
         {
             Text = "Search",
@@ -172,7 +166,6 @@ public partial class Form1 : Form
         searchPanel.Controls.Add(searchButton);
         contentPanel.Controls.Add(searchPanel);
 
-        // Create DataGridView
         dataGridView = new DataGridView
         {
             Location = new Point(20, 80),
@@ -209,14 +202,12 @@ public partial class Form1 : Form
             EnableHeadersVisualStyles = false
         };
 
-        // Add alternating row colors
         dataGridView.AlternatingRowsDefaultCellStyle = new DataGridViewCellStyle
         {
             BackColor = Color.FromArgb(250, 250, 250)
         };
         contentPanel.Controls.Add(dataGridView);
 
-        // Create status label
         statusLabel = new Label
         {
             Text = "Ready",
@@ -228,16 +219,13 @@ public partial class Form1 : Form
             Padding = new Padding(10, 0, 0, 0)
         };
 
-        // Add controls to form
         this.Controls.Add(sidePanel);
         this.Controls.Add(contentPanel);
         this.Controls.Add(statusLabel);
 
-        // Add event handlers
         searchBox.TextChanged += SearchBox_TextChanged;
         this.Resize += (s, e) => UpdateLayout();
 
-        // Initial layout update
         UpdateLayout();
     }
 
@@ -261,7 +249,7 @@ public partial class Form1 : Form
             TextAlign = ContentAlignment.MiddleLeft,
             Cursor = Cursors.Hand,
             TabStop = false,
-            Tag = text // Store original text
+            Tag = text
         };
 
         button.FlatAppearance.BorderSize = 0;
@@ -269,7 +257,6 @@ public partial class Form1 : Form
         button.FlatAppearance.MouseDownBackColor = accentColor;
         button.Click += MenuButton_Click;
 
-        // Add tooltip
         ToolTip tip = new ToolTip();
         tip.SetToolTip(button, tooltip);
 
@@ -282,7 +269,7 @@ public partial class Form1 : Form
     {
         if (sender is Button button)
         {
-            string buttonText = button.Text.Substring(3); // Remove emoji
+            string buttonText = button.Text.Substring(3); 
             switch (buttonText.Trim())
             {
                 case "Cats":
@@ -297,6 +284,55 @@ public partial class Form1 : Form
                 case "Adoption Requests":
                     LoadAdoptionRequestsData();
                     break;
+                case "Add Cat":
+                    var breeds = new List<(int id, string name)>();
+                    var regions = new List<(int id, string name)>();
+
+                    using (var cmd = new MySql.Data.MySqlClient.MySqlCommand("SELECT breed_id, breed_name FROM cat_breeds", connection))
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                            breeds.Add((reader.GetInt32(0), reader.GetString(1)));
+                    }
+
+                    using (var cmd = new MySql.Data.MySqlClient.MySqlCommand("SELECT region_id, region_name FROM regions", connection))
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                            regions.Add((reader.GetInt32(0), reader.GetString(1)));
+                    }
+
+                    using (var addCatForm = new AddCatForm(breeds, regions))
+                    {
+                        if (addCatForm.ShowDialog() == DialogResult.OK)
+                        {
+                            string name = addCatForm.CatName;
+                            int breedId = addCatForm.BreedId;
+                            int age = addCatForm.CatAge;
+                            string gender = addCatForm.Gender;
+                            int regionId = addCatForm.RegionId;
+
+                            try
+                            {
+                                using (var cmd = new MySql.Data.MySqlClient.MySqlCommand(
+                                    "INSERT INTO cats (name, breed_id, age, gender, region_id) VALUES (@name, @breedId, @age, @gender, @regionId)", connection))
+                                {
+                                    cmd.Parameters.AddWithValue("@name", name);
+                                    cmd.Parameters.AddWithValue("@breedId", breedId);
+                                    cmd.Parameters.AddWithValue("@age", age);
+                                    cmd.Parameters.AddWithValue("@gender", gender);
+                                    cmd.Parameters.AddWithValue("@regionId", regionId);
+                                    cmd.ExecuteNonQuery();
+                                }
+                                MessageBox.Show("Cat added to database!");
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("Error adding cat: " + ex.Message);
+                            }
+                        }
+                    }
+                    break;
             }
         }
     }
@@ -308,7 +344,7 @@ public partial class Form1 : Form
             connection = new MySqlConnection(connectionString);
             connection.Open();
             statusLabel.Text = "Connected to database";
-            LoadCatsData(); // Load initial data
+            LoadCatsData(); 
         }
         catch (Exception ex)
         {
@@ -419,7 +455,6 @@ public partial class Form1 : Form
 
     private void SearchBox_TextChanged(object? sender, EventArgs e)
     {
-        // Only update status label when typing
         if (!string.IsNullOrWhiteSpace(searchBox.Text))
         {
             statusLabel.Text = "Press Search to find matching records";
@@ -444,8 +479,8 @@ public partial class Form1 : Form
                 string searchText = searchBox.Text.ToLower();
                 DataView dv = dataTable.DefaultView;
 
-                // Determine which table we're working with and set appropriate filter
-                if (dataTable.Columns.Contains("Name")) // Cats table
+                
+                if (dataTable.Columns.Contains("Name")) 
                 {
                     dv.RowFilter = $"Convert([Name], 'System.String') LIKE '%{searchText}%' OR " +
                                  $"Convert([ID], 'System.String') LIKE '%{searchText}%' OR " +
@@ -454,18 +489,18 @@ public partial class Form1 : Form
                                  $"Convert([Gender], 'System.String') LIKE '%{searchText}%' OR " +
                                  $"Convert([Region], 'System.String') LIKE '%{searchText}%'";
                 }
-                else if (dataTable.Columns.Contains("owner_name")) // Cat ownership table
+                else if (dataTable.Columns.Contains("owner_name")) 
                 {
                     dv.RowFilter = $"Convert(owner_name, 'System.String') LIKE '%{searchText}%' OR " +
                                  $"Convert(cat_id, 'System.String') LIKE '%{searchText}%'";
                 }
-                else if (dataTable.Columns.Contains("diagnosis")) // Medical records table
+                else if (dataTable.Columns.Contains("diagnosis")) 
                 {
                     dv.RowFilter = $"Convert(diagnosis, 'System.String') LIKE '%{searchText}%' OR " +
                                  $"Convert(cat_id, 'System.String') LIKE '%{searchText}%' OR " +
                                  $"Convert(treatment, 'System.String') LIKE '%{searchText}%'";
                 }
-                else if (dataTable.Columns.Contains("requester_name")) // Adoption request table
+                else if (dataTable.Columns.Contains("requester_name")) 
                 {
                     dv.RowFilter = $"Convert(requester_name, 'System.String') LIKE '%{searchText}%' OR " +
                                  $"Convert(cat_id, 'System.String') LIKE '%{searchText}%' OR " +
@@ -501,7 +536,7 @@ public partial class Form1 : Form
         {
             sidePanel.Width = 250;
             toggleSidebarButton.Text = "◀";
-            // Show full text for all buttons
+
             foreach (var button in menuButtons)
             {
                 button.Text = (string)button.Tag;
@@ -509,13 +544,13 @@ public partial class Form1 : Form
         }
         else
         {
-            sidePanel.Width = 60; // Just enough for icons
+            sidePanel.Width = 60; 
             toggleSidebarButton.Text = "▶";
-            // Show only icons for all buttons
+
             foreach (var button in menuButtons)
             {
                 string fullText = (string)button.Tag;
-                button.Text = fullText.Substring(0, 2); // Keep only the emoji
+                button.Text = fullText.Substring(0, 2);
             }
         }
 

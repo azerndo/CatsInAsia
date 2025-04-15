@@ -28,3 +28,4 @@ C:\my-files\bicol-university\BSIT-third-year\second-semester\event-driven-progra
 C:\my-files\bicol-university\BSIT-third-year\second-semester\event-driven-programming\activity-7-frontend\CatsInAsia\MySQLConnectionDemo\obj\Debug\net9.0-windows\ref\MySQLConnectionDemo.dll
 C:\my-files\bicol-university\BSIT-third-year\second-semester\event-driven-programming\activity-7-frontend\CatsInAsia\MySQLConnectionDemo\obj\Debug\net9.0-windows\MySQLConnectionDemo.RoundedTextBox.resources
 C:\my-files\bicol-university\BSIT-third-year\second-semester\event-driven-programming\activity-7-frontend\CatsInAsia\MySQLConnectionDemo\obj\Debug\net9.0-windows\MySQLConnectionDemo.csproj.GenerateResource.cache
+C:\my-files\bicol-university\BSIT-third-year\second-semester\event-driven-programming\activity-7-frontend\CatsInAsia\MySQLConnectionDemo\obj\Debug\net9.0-windows\MySQLConnectionDemo.sourcelink.json
