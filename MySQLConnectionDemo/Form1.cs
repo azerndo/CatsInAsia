@@ -40,7 +40,7 @@ public class RoundedTextBox : TextBox
 
 public partial class Form1 : Form
 {
-    private string connectionString = "server=127.0.0.1;port=3306;user=root;password=blackprincess21;database=cats_in_asia;";
+    public static string connectionString = "server=127.0.0.1;port=3306;user=root;password=blackprincess21;database=cats_in_asia;";
     private MySqlConnection connection;
     private Panel sidePanel;
     private Panel contentPanel;
@@ -117,6 +117,7 @@ public partial class Form1 : Form
         CreateMenuButton("📋 Medical Records", "Access medical records", 2);
         CreateMenuButton("❤️ Adoption Requests", "Manage adoption requests", 3);
         CreateMenuButton("🐱 Add Cat", "Add new cat", 4);
+        CreateMenuButton("📝 Apply to Adopt", "Submit an adoption request", 5);
 
         contentPanel = new Panel
         {
@@ -333,6 +334,10 @@ public partial class Form1 : Form
                         }
                     }
                     break;
+                case "Apply to Adopt":
+                    var adoptionForm = new AdoptionRequestForm();
+            adoptionForm.ShowDialog();
+            break;
             }
         }
     }
